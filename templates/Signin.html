@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color:white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            background-color:dimgrey;
+            background-image: url("{{url_for('static',path='images/loginpage1.jpg')}}");
+            background-size: cover;
+            /* background-color:dimgrey; */
+        } 
+
+        .container {
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #cccccc;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #ffffff;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+        a {
+             color: yellow; /* or color: yellow; */
+        }
+        button {
+            background-color: green;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Signin</h2>
+    <form action="{{url_for('logincheck')}}" method="post" >
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+         <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required> <br>
+        <a href="{{url_for('newpassword')}}">Update password</a><br>
+        <button type="submit">Sign In</button><br>
+        <a href="{{url_for('login')}}">I don't have an account?<p style="display: inline;">      Sign up</p></a> 
+    </form>
+</div>
+</body>
+</html>

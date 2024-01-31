@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP page</title>
+    <style>
+             body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            display: flex;
+            justify-content:center;
+            height: 100vh;
+        } 
+        
+         .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+        button {
+            background-color: green;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+     <div class="container">
+        <form action="/verifyotp" method="post">
+        <label for="OTP">OTP:</label>
+        <input type="text" id="OTP" name="OTP" placeholder="Enter your OTP" required>                
+        <label for="Password">New Password:</label>
+        <input type="Password" name="Password" id="" placeholder="" required>
+        <label for="Password">ConformPassword:</label>
+        <input type="Password" name="Con_Password" id="" placeholder="" required>
+        <button type="submit">submit</button>
+    </form>
+     </div>
+</body>
+</html>

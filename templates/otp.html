@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP page</title>
+    <style>
+             body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            display: flex;
+            justify-content:center;
+            height: 100vh;
+            background-image: url("{{url_for('static',path='images/loginpage3.jpg')}}");
+            background-size: cover;
+        } 
+        
+         .container {
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+        button {
+            background-color: green;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+     <div class="container">
+        <form action="/otp" method="post">
+        <label for="Email id">Email id:</label>
+        <input type="text" id="email" name="email" placeholder="Enter your Email id" required>       
+        <a href=""> <button type="submit">Get OTP</button></a> 
+       
+        <!-- <label for="New Password">New Password:</label>
+        <input type="Password" name="New Password" id="New Password" placeholder="" required>
+        <label for="Conformpassword">Conformpassword:</label>
+        <input type="password" name="conformpassword" id="conformpassword" placeholder="" required> -->
+        <!-- <button type="submit">Conform OTP</button> -->
+    </form>
+     </div>
+</body>
+</html>

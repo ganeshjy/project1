@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            background-image: url("{{url_for('static',path='images/loginpage2.jpg')}}");
+            background-size: cover;
+        }
+
+        .container {
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #808080;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: DodgerBlue;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid black;
+            border-radius: 4px;
+            color: cadetblue;
+        }
+
+        a {
+            color: orange;
+        }
+
+        button {
+            background-color: green;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+        }
+         /* Disable text selection for the CAPTCHA input field */
+        #captchaImage {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera, and Firefox */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Sign up</h2>
+    <form action="{{url_for('newuser')}}" method="post" onsubmit="return validateCaptcha()">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <label for="conformpassword">Confirm Password:</label>
+        <input type="password" id="conformpassword" name="conformpassword" required>
+        
+        <div id="captchaImage"></div>
+        <label for="captcha">CAPTCHA:</label>        
+        <input type="text" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" required>
+        <button type="button" onclick="generateCaptcha()">Refresh CAPTCHA</button>
+        <button type="submit">Signup</button>
+        <a href="{{url_for('signin')}}">Already have an account</a>
+    </form>
+
+    <script>
+        function generateRandomString(length) {
+            const characters = '!ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@$#&*';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        function generateCaptcha() {
+            const captchaText = generateRandomString(6);
+            const captchaElement = document.getElementById('captchaImage');
+            captchaElement.innerHTML = `<p>${captchaText}</p>`;
+        }
+
+        function validateCaptcha() {
+            const userInput = document.getElementById('captchaInput').value;
+            const actualCaptcha = document.getElementById('captchaImage').innerText;
+
+            if (userInput === actualCaptcha) {
+                return true;
+            } else {
+                alert('CAPTCHA verification failed. Please try again.');
+                generateCaptcha(); // Refresh CAPTCHA on failure
+                return false;
+            }
+        }
+
+        // Initial CAPTCHA generation
+        generateCaptcha();
+    </script>
+</div>
+
+</body>
+</html>

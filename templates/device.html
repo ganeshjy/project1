@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>deviceDetails</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <style>
+      
+       
+        
+         thead{
+            text-align: center;
+            vertical-align: middle;
+            border-top: 1px solid black;            
+            grid-template-columns: repeat(auto-fill, minmax(149px,1fr));
+        } 
+        tbody{
+            text-align: center;
+            vertical-align: middle;
+        } 
+        .form-control {
+            border: 2px solid black;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="contaainer mt-5 position-absolute top-0 start-0">
+        <button type="button" class="btn btn-secondary" onclick="gotodashboard()"><i class="bi bi-chevron-double-left"></i></button>
+    </div>
+    <center><h1>Device Data</h1></center>    
+    <div class="container" >
+       
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search Device_ID" aria-label="Search" id="searchInput">
+        </form>        
+        <table class="table" id="deviceDataTable">
+            <thead>
+                
+                    <tr>
+                        <th scope="col">Sl.no</th>
+                        <th scope="col">Battery_Level</th>
+                        <th scope="col">Device_ID</th>
+                        <th scope="col">First_Sensor_temperature</th>
+                        <th scope="col">Route_From</th>
+                        <th scope="col">Route_To</th>                        
+                    </tr>
+            
+            </thead>
+            
+            <tbody>
+                {% for device in device_data %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ device.Battery_Level }}</td>
+                        <td>{{ device.Device_ID }}</td>
+                        <td>{{ device.First_Sensor_temperature }}</td>
+                        <td>{{ device.Route_From }}</td>
+                        <td>{{ device.Route_To }}</td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>            
+            <script>
+                function gotodashboard(){
+                    window.location.href="/dashboard"
+                 }
+                document.addEventListener('DOMContentLoaded', function () {
+                    const searchBar = document.getElementById('searchInput');
+                    const table = document.getElementById('deviceDataTable');
+            
+                    searchBar.addEventListener('input', function () {
+                        const searchTerm = searchBar.value.toLowerCase();
+                        const rows = table.querySelectorAll('tbody tr');
+            
+                        rows.forEach(function (row) {
+                            const batteryLevel = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+                            const deviceID = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                            const firstSensorTemp = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                            const routeFrom = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                            const routeTo = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
+            
+                            //if (batteryLevel.includes(searchTerm) || deviceID.includes(searchTerm) || firstSensorTemp.includes(searchTerm) || routeFrom.includes(searchTerm) || routeTo.includes(searchTerm)) {
+                                if ( deviceID.includes(searchTerm) ) {
+                                row.style.display = '';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            </script>
+
+            
+</body>
+</html>

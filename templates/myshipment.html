@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipmentdetails</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+   <style>
+       
+        .container{
+            margin-left: 0;
+            text-size-adjust: 2;
+        } 
+        body{
+            font-size: 13px;
+        }
+        h1{
+            text-align: center;
+        }
+        /*thead{
+            text-align: center;
+            vertical-align: middle;
+        } */
+        tbody{
+            text-align: center;
+            vertical-align: middle;
+        } 
+    </style>
+    <script>
+        function gotodashboard(){
+            window.location.href="/dashboard";
+          }
+        async function submittoken(){
+            let token1='{{token}}';
+             
+             if(token1==""){
+                 var token =localStorage.getItem("token")
+                 if(token==null){
+                     window.location.href="http://127.0.0.1:8000/signin"
+ 
+                 }
+                 else{
+                     const response = await fetch('http://127.0.0.1:8000/token', {
+                         method: 'POST',
+                         headers: {
+                             'Content-Type': 'application/json',
+                         },
+                         body: JSON.stringify({ token })
+                     });
+ 
+                     const ship_ment = await response.json();
+                     console.log(ship_ment)
+                     
+                document.getElementById('username').value= ship_ment.Username
+                console.log(ship_ment.Username)
+ 
+                 }
+             }
+ 
+             else{
+                //  localStorage.setItem("token",token1)
+             }
+             
+
+        }
+    </script>
+</head>
+<body onload="submittoken()">
+    <div class="container mt-5 position-absolute top-0 start-0">
+        <button type="button" class="btn btn-secondary" onclick="gotodashboard()"><i class="bi bi-chevron-double-left"></i></button>
+    </div><br>
+     <h1>Shipment details</h1><br>
+    <div class="container" >
+        <!-- table-responsive -->
+            <table class="table ">
+                <thead>
+                    
+                        <tr>
+                            <th scope="col">ShipmentNumber</th>
+                            <th scope="col">RouteDetails</th>
+                            <th scope="col">Device</th>
+                            <th scope="col">PONumber</th>
+                            <th scope="col">NDCNumber</th>
+                            <th scope="col">SlnoofGoods</th>
+                            <th scope="col">Conno</th>
+                            <th scope="col">GoodsType</th>
+                            <th scope="col">ExpectedDeliveryDate</th>
+                            <th scope="col">DeliveryNumber</th>
+                            <th scope="col">BatchId</th>
+                            <th scope="col">ShipmentDescription</th>
+                        </tr>
+                
+                </thead>
+                
+                <tbody>
+                    {% for shipment in shipments %}
+                        <tr>
+                            <td>{{ shipment.ShipmentNumber }}</td>
+                            <td>{{ shipment.RouteDetails }}</td>
+                            <td>{{ shipment.Device }}</td>
+                            <td>{{ shipment.PONumber }}</td>
+                            <td>{{ shipment.NDCNumber }}</td>
+                            <td>{{ shipment.SlnoofGoods }}</td>
+                            <td>{{ shipment.Conno }}</td>
+                            <td>{{ shipment.GoodsType }}</td>
+                            <td>{{ shipment.ExpectedDeliveryDate }}</td>
+                            <td>{{ shipment.DeliveryNumber }}</td>
+                            <td>{{ shipment.BatchId }}</td>
+                            <td>{{ shipment.ShipmentDescription }}</td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+           
+        
+    </div>
+   
+    
+</body>
+</html>

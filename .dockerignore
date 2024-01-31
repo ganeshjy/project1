@@ -1,0 +1,10 @@
+# reduce image size(by ignireing the unnecessary files)
+# Avoiding Unwanted Dependencies:
+
+
+server/
+__pychache__/
+python/
+*.server
+*.server.*
+server.*
