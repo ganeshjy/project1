@@ -175,9 +175,6 @@ async def update_password(request: Request,username: str = Form(),oldPassword: s
     user = col.find_one({"Username": username})
     if user is None:
         return {"msg": "Invalid username or old password"}
-    
-    
-    
 
     if bcrypt.checkpw(oldPassword.encode('utf-8'), user['password'].encode('utf-8')):        
         if oldPassword==newPassword:
