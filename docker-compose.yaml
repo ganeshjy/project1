@@ -4,6 +4,7 @@ services:
       image: 'project1'
       ports:
         - '5000:8000'
+        # host port:con_port
         
     zookeeper:
       image: 'ubuntu/zookeeper:latest'
@@ -71,21 +72,6 @@ services:
     #   ports:
     #     - "8000:8000"
 
-    
-    # web:
-    # image: nginx:latest
-    # container_name: my-web-app
-    # ports:
-    #   - "80:80"
-    # volumes:
-    #   - ./path/to/your/web/app:/usr/share/nginx/html
-    # depends_on:
-    #   - server  # Assuming your web app depends on your server
-    # build: 
-    #   context: .
-    #   dockerfile: dockerfile
-    # command: sh -c "uvicorn main:app --reload --host=0.0.0.0"
-    # ports:
-    #   - "8000:8000"
+   
     
 
