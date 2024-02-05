@@ -57,6 +57,39 @@
         /* button:hover {
             background-color: #45a049;
         } */
+        /** .error-label {
+            color: red;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }**/
+        
+        .pulse {
+            animation: pulse 1s ;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -64,15 +97,39 @@
         <form action="/update_password" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
+            {% if error_username %}
+            <p id="error" style="color: red;">{{error_username}}</p>
+            {% endif %}
             <label for="oldPassword">Old Password:</label>
             <input type="password" id="oldPassword" name="oldPassword" required>
+            {% if error_oldpassword %}
+            <p id="error" style="color: red;">{{error_oldpassword}}</p>
+            {% endif %}
             <label for="newPassword">New Password:</label>
             <input type="password" id="newPassword" name="newPassword" required>
-            <label for="confirmPassword">Confirm New Password:</label>
+            <label for="confirmPassword">Conform New Password:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required>
+            {% if error_conformpassword %}
+            <p id="error" style="color: red;">{{error_conformpassword}}</p>
+            {% endif %}
             <a href="{{url_for('sendotp')}}">Forgot Password</a><br>
             <button type="submit">Update Password</button>
         </form>
     </div>
+    <script>
+        var errorusername="{{error_username}}";
+        var erroroldpassword="{{error_oldpassword}}";
+        var errorconformpassword="{{error_conformpassword}}";
+
+        if(errorusername){
+            document.getElementById('username').classList.add('pulse');
+        }
+        if(erroroldpassword){
+            document.getElementById('oldPassword').classList.add('pulse');
+        }
+        if(errorconformpassword){
+            document.getElementById('confirmPassword').classList.add('pulse');
+        }
+    </script>
 </body>
 </html>

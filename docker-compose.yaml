@@ -1,7 +1,7 @@
 version: '3'
 services:
     web:
-      image: 'project1'
+      image: 'project'
       ports:
         - '5000:8000'
         # host port:con_port

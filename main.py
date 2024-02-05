@@ -57,10 +57,11 @@ def newuser(request: Request,username:str = Form(),email: str = Form(),password:
     existing_user=col.find_one({"$or": [{"Username": username}, {"Email": email}]})
 
     if existing_user:
-        return {"Info": "Username already exists"}
+        return templates.TemplateResponse("Signup.html",{"request":request, "error_username":"Username or Email already exists"})
     # checking password=conformpassword
     if password!=conformpassword:
-        return {"Info":"password and retyped password are not same"}
+        # return {"Info":"password and retyped password are not same"}
+        return templates.TemplateResponse("Signup.html",{"request":request, "error_conpassword":"password and conformpassword is incorrect"})
      # Hash the password before storing it in the database
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     
@@ -104,17 +105,17 @@ async def token(request: Request, data: dict):
 def logincheck(request: Request, email: str = Form(), password: str = Form()):
     rec = col.find_one({"Email": email})    
     if rec == None:
-        return {"Error":"User not found in db"}
+         return templates.TemplateResponse("Signin.html", {"request": request, "error_email": "User not found in db"})
     hashed_password = rec.get('password')
 
     if hashed_password is None:
-        return {"Error": "Password not available for the user"}
+        return templates.TemplateResponse("Signin.html",{"request": request, "error_password": "Password not available for the user" })
 
       # Verify the hashed password
     if bcrypt.checkpw(password.encode('utf-8'), rec['password'].encode('utf-8')):
         return home(email, request)
     else:
-        return {"Error": "Invalid password"}  
+        return templates.TemplateResponse("Signin.html", {"request":request,"error_password":"Invalid Password"}) 
 
 
 @app.get("/sendotp",response_class=HTMLResponse)
@@ -128,7 +129,8 @@ async def otp(request: Request, email:str=Form()):
     global eemail
     eemail=email
     if not user : 
-        raise HTTPException(status_code=400, detail="user not found")
+        return templates.TemplateResponse("otp.html",{"request":request,"error_email":"user not found"})
+        # raise HTTPException(status_code=400, detail="user not found")
     otp = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
     user["otp"]=otp
     # a = col.update_one({"Email":email},{"$set":user})
@@ -153,9 +155,11 @@ async def verifyotp(request: Request, OTP:str=Form(), Password:str=Form(),Con_Pa
             update=col.update_one(data,{"$set":{"password":Password}})
             return  templates.TemplateResponse("dashboard.html",{"request":request})
         else:
-            return{"msg":"your password is incorrect"}
+            return templates.TemplateResponse("otp1.html",{"request":request,"error_conformpassword":"new password and conform password is incorrect"})
+            # return{"msg":"your password is incorrect"}
     else:
-        return{"msg":"your OTP is incorrect"}
+        return templates.TemplateResponse("otp1.html",{"request":request, "error_otp":"your OTP is incorrect"})
+        # return{"msg":"your OTP is incorrect"}
 
 
 
@@ -174,21 +178,23 @@ async def update_password(request: Request,username: str = Form(),oldPassword: s
     
     user = col.find_one({"Username": username})
     if user is None:
-        return {"msg": "Invalid username or old password"}
+        return templates.TemplateResponse("udtpwd.html",{"request":request, "error_username":"Invalid username"})
+        # return {"msg": "Invalid username or old password"}
 
     if bcrypt.checkpw(oldPassword.encode('utf-8'), user['password'].encode('utf-8')):        
         if oldPassword==newPassword:
-            return {"msg": " old password and new password is same"}
+            return templates.TemplateResponse("udtpwd.html",{"request":request, "error_oldpassword":" old password and new password is same"})
+           
         else:
             # Check if the new password and confirm password match
             if newPassword != confirmPassword:
-                return {"msg": "New password and confirm password do not match"}
+                return templates.TemplateResponse("udtpwd.html",{"request":request,"error_conformpassword":"New password and conform password is incorrect"})
             hashed_password = bcrypt.hashpw(newPassword.encode('utf-8'), bcrypt.gensalt())   
             update = col.update_one({"_id": ObjectId(user["_id"])}, {"$set": {"password": hashed_password.decode('utf-8')}})
             return templates.TemplateResponse("dashboard.html", {"request": request})
 
     else:
-        return{"msg:old password is incorrect"}
+        return templates.TemplateResponse("udtpwd.html",{"request":request, "error_oldpassword":"old password is incorrect"})
    
 
 # dashboard

@@ -26,9 +26,10 @@
         label {
             display: block;
             margin: 10px 0 5px;
+            
         }
         input {
-            width: 100%;
+            width: 95%;
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid black;
@@ -40,6 +41,22 @@
             border-radius: 4px;
             width: 100%;
         }
+        
+        .pulse {
+            animation: pulse 1s ;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -47,14 +64,17 @@
         <form action="/otp" method="post">
         <label for="Email id">Email id:</label>
         <input type="text" id="email" name="email" placeholder="Enter your Email id" required>       
+        {% if error_email %}
+        <p id="error" style="color: red;">{{error_email}}</p>
+        {% endif %}
         <a href=""> <button type="submit">Get OTP</button></a> 
-       
-        <!-- <label for="New Password">New Password:</label>
-        <input type="Password" name="New Password" id="New Password" placeholder="" required>
-        <label for="Conformpassword">Conformpassword:</label>
-        <input type="password" name="conformpassword" id="conformpassword" placeholder="" required> -->
-        <!-- <button type="submit">Conform OTP</button> -->
     </form>
      </div>
+     <script>
+        var erroremail = "{{error_email}}";
+        if (erroremail){
+            document.getElementById('email').classList.add("pulse");
+        }
+     </script>
 </body>
 </html>

@@ -14,23 +14,28 @@
             justify-content: center;
             height: 100vh;
             overflow: hidden;
-            background-color:dimgrey;
             background-image: url("{{url_for('static',path='images/loginpage1.jpg')}}");
             background-size: cover;
-            /* background-color:dimgrey; */
+            background-position: center;
+            
         } 
 
         .container {
-            background-color: transparent;
+              
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 30%;
+            position: relative;
+            background-color: rgba(0,255,216,0.3);
+            height: 50%;
+            margin-top: 10%;
+            
         }
 
-        h2 {
+        h1 {
             text-align: center;
-            color: #cccccc;
+            color: white;
         }
 
         label {
@@ -54,21 +59,71 @@
             border-radius: 4px;
             width: 100%;
         }
+        /**.error-label {
+            color: red;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        } **/
+        
+        .pulse {
+            animation: pulse 1s ;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Signin</h2>
+    <h1>Signin</h1>
     <form action="{{url_for('logincheck')}}" method="post" >
         <label for="email">Email:</label>
         <input type="text" id="email" name="email" placeholder="Enter your email" required>
-         <label for="password">Password:</label>
+        {% if error_email %}
+        <p id="error" style="color: red;">{{error_email}}</p>
+        {% endif %}
+        <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Enter your password" required> <br>
+        {% if error_password %}
+        <p id="error" style="color: red;">{{error_password}}</p>
+        {% endif %}
         <a href="{{url_for('newpassword')}}">Update password</a><br>
         <button type="submit">Sign In</button><br>
         <a href="{{url_for('login')}}">I don't have an account?<p style="display: inline;">      Sign up</p></a> 
     </form>
 </div>
+<script>
+    var erroremail="{{error_email}}";
+    var errorpassword="{{error_password}}";
+
+    if (erroremail){
+        document.getElementById('email').classList.add('pulse');
+    }
+    if (errorpassword){
+        document.getElementById('password').classList.add("pulse");
+    }
+</script>
 </body>
 </html>

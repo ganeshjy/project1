@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,23 +16,24 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-            background-image: url("{{url_for('static',path='images/loginpage2.jpg')}}");
-            background-size: cover;
+            height: 110vh;
+          
         }
 
         .container {
-            background-color: transparent;
+            background-image: url("{{url_for('static',path='images/loginpage2.jpg')}}");
+            background-size: cover;
+            background-position: center;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 30%;
+            position: relative;
         }
 
         h2 {
             text-align: center;
-            color: #808080;
+            color:DodgerBlue;
         }
 
         label {
@@ -39,10 +45,9 @@
         input {
             width: 100%;
             padding: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             border: 1px solid black;
             border-radius: 4px;
-            color: cadetblue;
         }
 
         a {
@@ -55,6 +60,10 @@
             border-radius: 4px;
             width: 100%;
         }
+        .already-have-account {
+            text-align: center;
+            /* Adjust spacing */
+        }
          /* Disable text selection for the CAPTCHA input field */
         #captchaImage {
             -webkit-touch-callout: none; /* iOS Safari */
@@ -64,28 +73,68 @@
             -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera, and Firefox */
         }
+        /** .error-label {
+            color: red;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }**/
+        
+        .pulse {
+            animation: pulse 1s ;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
-<body>
+<body style="background-color: gray;">
 
 <div class="container">
     <h2>Sign up</h2>
     <form action="{{url_for('newuser')}}" method="post" onsubmit="return validateCaptcha()">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        {% if error_username %}
+        <p id="error" style="color: red;">{{error_username}}</p>
+        {% endif %}
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" placeholder="Enter your Email" required>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Enter your password" required>
         <label for="conformpassword">Confirm Password:</label>
         <input type="password" id="conformpassword" name="conformpassword" required>
-        
+        {% if error_conpassword %}
+        <p  id="error" style="color: red;">{{error_conpassword}}</p>
+        {% endif%}
         <div id="captchaImage"></div>
         <label for="captcha">CAPTCHA:</label>        
         <input type="text" id="captchaInput" name="captchaInput" placeholder="Enter CAPTCHA" required>
         <button type="button" onclick="generateCaptcha()">Refresh CAPTCHA</button>
         <button type="submit">Signup</button>
-        <a href="{{url_for('signin')}}">Already have an account</a>
+        <div class="already-have-account">
+            <a href="{{url_for('signin')}}">Already have an account</a>
+        </div>
     </form>
 
     <script>
@@ -119,6 +168,17 @@
 
         // Initial CAPTCHA generation
         generateCaptcha();
+
+
+        var errorusername="{{error_username}}";
+        var errorconformpassword="{{error_conpassword}}";
+        if(errorusername){
+            document.getElementById('username').classList.add('pulse');
+
+        }
+        if(errorconformpassword){
+            document.getElementById('conformpassword').classList.add('pulse');
+        }
     </script>
 </div>
 
