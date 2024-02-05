@@ -70,6 +70,21 @@
             margin-top: 20px;
             margin-bottom: 20px;
         }
+        /* Animation for SCM-Xpert */
+        @keyframes slideInFromTop {
+            0% {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-animation {
+            animation: slideInFromTop 1s ease-out;
+        }
     </style>
     <script>
        async function submittoken(){
@@ -145,7 +160,7 @@
     </form>
     <main>
         <div>
-            <center><h1 >SCM-Xpert</h1></center>
+            <center><h1 class="header-animation">SCM-Xpert</h1></center>
          </div>
         <img src="{{ url_for('static', path='images/scm.jpg') }}" alt="Login Image">
        

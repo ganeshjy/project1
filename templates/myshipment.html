@@ -30,6 +30,7 @@
             vertical-align: middle;
         } 
     </style>
+    
     <script>
         function gotodashboard(){
             window.location.href="/dashboard";
@@ -40,11 +41,11 @@
              if(token1==""){
                  var token =localStorage.getItem("token")
                  if(token==null){
-                     window.location.href="http://127.0.0.1:8000/signin"
+                     window.location.href="/signin"
  
                  }
                  else{
-                     const response = await fetch('http://127.0.0.1:8000/token', {
+                     const response = await fetch('/token', {
                          method: 'POST',
                          headers: {
                              'Content-Type': 'application/json',
@@ -55,8 +56,8 @@
                      const ship_ment = await response.json();
                      console.log(ship_ment)
                      
-                document.getElementById('username').value= ship_ment.Username
-                console.log(ship_ment.Username)
+               /** document.getElementById('username').value= ship_ment.Username
+                console.log(ship_ment.Username)**/
  
                  }
              }
